@@ -7,7 +7,18 @@
 
 import SwiftUI
 
-// MARK: - [Public] AppRoute
+// MARK: - Navigation types
+
+/// A tab
+public protocol TabRepresentable: CaseIterable, Hashable { }
+
+/// A sheet
+public protocol SheetRepresentable: Identifiable { }
+
+/// A navigation destination
+public protocol DestinationRepresentable: Hashable { }
+
+// MARK: - AppRoute
 
 /// A type conforming to this protocol must declare the types used
 /// for modes of navigation.
@@ -25,18 +36,7 @@ public protocol AppRouteDisplayer {
     associatedtype DestinationDisplayer: NavigationPathRouteDisplayer
 }
 
-// MARK: - [Public] Navigation types
-
-/// A tab
-public protocol TabRepresentable: CaseIterable, Hashable { }
-
-/// A sheet
-public protocol SheetRepresentable: Identifiable { }
-
-/// A navigation destination
-public protocol DestinationRepresentable: Hashable { }
-
-// MARK: - [Public] Displayer
+// MARK: - Displayer
 
 /// A view that displays the tab items displayed on the tab bar.
 public protocol TabRouteDisplayer: View {
