@@ -30,11 +30,11 @@ public struct RoutableTabView: View {
     }
     
     private func labelView(tab: Hashed<any RoutableTab>) -> some View {
-        AnyView(tab.wrappedValue.makeContent(configuration: makeConfiguration(tab: tab)))
+        AnyView(tab.wrappedValue.makeLabel(configuration: makeConfiguration(tab: tab)))
     }
     
     private func contentView(tab: Hashed<any RoutableTab>) -> some View {
-        AnyView(tab.wrappedValue.makeLabel(configuration: makeConfiguration(tab: tab)))
+        AnyView(tab.wrappedValue.makeContent(configuration: makeConfiguration(tab: tab)))
     }
     
     private func makeConfiguration(tab: Hashed<any RoutableTab>) -> RoutableTab.Configuration {
