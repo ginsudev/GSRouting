@@ -18,12 +18,10 @@ public struct RoutableTabView: View {
     
     public var body: some View {
         TabView(selection: $tabRouter.selectedTab) {
-            ForEach(tabRouter.tabs) { tab in
+            ForEach(tabRouter.tabs, id: \.wrappedValue.id) { tab in
                 contentView(tab: tab)
-                    .tabItem {
-                        labelView(tab: tab)
-                    }
-                    .tag(tab.wrappedValue.id)
+                    .tabItem { labelView(tab: tab) }
+                    .tag(tab)
             }
         }
         .environmentObject(tabRouter)

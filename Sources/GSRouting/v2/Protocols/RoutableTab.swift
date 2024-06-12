@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// A protocol which can be used to render a tab.
-public protocol RoutableTab {
+public protocol RoutableTab: Hashable, Identifiable {
     associatedtype TabLabel: View
     associatedtype TabContent: View
     
