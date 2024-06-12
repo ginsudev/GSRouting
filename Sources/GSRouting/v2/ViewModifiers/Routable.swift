@@ -53,6 +53,7 @@ private struct RoutableViewModifier: ViewModifier {
                 }
             )
         }
+        .environmentObject(navRouter)
     }
     
     private func sheetView(_ sheet: Hashed<any RoutableView>) -> some View {
