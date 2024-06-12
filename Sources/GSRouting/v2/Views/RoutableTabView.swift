@@ -18,15 +18,15 @@ public struct RoutableTabView: View {
     
     public var body: some View {
         TabView(selection: $tabRouter.selectedTab) {
-            ForEach(tabRouter.tabs, content: tabItem(for:))
+            ForEach(tabRouter.tabs) { tab in
+                contentView(tab: tab)
+                    .tabItem {
+                        labelView(tab: tab)
+                    }
+                    .tag(tab.wrappedValue.id)
+            }
         }
         .environmentObject(tabRouter)
-    }
-    
-    private func tabItem(for tab: Hashed<any RoutableTab>) -> some View {
-        contentView(tab: tab).tabItem {
-            labelView(tab: tab)
-        }
     }
     
     private func labelView(tab: Hashed<any RoutableTab>) -> some View {
