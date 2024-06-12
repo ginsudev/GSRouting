@@ -19,6 +19,10 @@ public protocol ViewRoute: Hashable, Equatable, Identifiable where ID == String 
 
 public extension ViewRoute {
     
+    var id: ID {
+        "\(type(of: self as Any))"
+    }
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
