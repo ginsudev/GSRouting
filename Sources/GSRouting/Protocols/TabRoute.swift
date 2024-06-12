@@ -7,17 +7,27 @@
 
 import SwiftUI
 
+@_typeEraser(AnyTabRoute)
 /// A protocol which can be used to render a tab.
-public protocol TabRoute: Hashable, Identifiable {
+public protocol TabRoute: Hashable, Equatable, Identifiable where ID == String {
     associatedtype TabLabel: View
     associatedtype TabContent: View
-    
-    var id: String { get }
-    
+        
     @ViewBuilder func makeLabel(configuration: RoutableTabConfiguration) -> TabLabel
     @ViewBuilder func makeContent(configuration: RoutableTabConfiguration) -> TabContent
     
     typealias Configuration = RoutableTabConfiguration
+}
+
+public extension TabRoute {
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.id == rhs.id
+    }
 }
 
 public struct RoutableTabConfiguration {

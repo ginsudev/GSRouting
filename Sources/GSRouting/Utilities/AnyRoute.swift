@@ -8,57 +8,47 @@
 import Foundation
 import SwiftUI
 
-internal struct AnyViewRoute: ViewRoute, Identifiable, Hashable {
-    typealias Body = AnyView
-    
-    let id: UUID
-    
+public struct AnyViewRoute: ViewRoute {
+    public typealias Body = AnyView
+        
     private let _route: any ViewRoute
     
-    init(erasing wrappedValue: any ViewRoute) {
+    public var id: String { _route.id }
+    
+    public init(erasing wrappedValue: any ViewRoute) {
         self._route = wrappedValue
-        self.id = UUID()
     }
     
-    func makeBody(configuration: RoutableViewConfiguration) -> Self.Body {
+    public init(erasing wrappedValue: some ViewRoute) {
+        self._route = wrappedValue
+    }
+    
+    public func makeBody(configuration: RoutableViewConfiguration) -> Self.Body {
         AnyView(_route.makeBody(configuration: configuration))
-    }
-    
-    static func == (lhs: AnyViewRoute, rhs: AnyViewRoute) -> Bool {
-        lhs.id == rhs.id
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
     }
 }
 
-internal struct AnyTabRoute: TabRoute, Identifiable, Hashable {
-    typealias TabLabel = AnyView
-    typealias TabContent = AnyView
-    
-    let id: String
-    
+public struct AnyTabRoute: TabRoute {
+    public typealias TabLabel = AnyView
+    public typealias TabContent = AnyView
+        
     private let _route: any TabRoute
     
-    init(erasing wrappedValue: any TabRoute) {
+    public var id: String { _route.id }
+    
+    public init(erasing wrappedValue: any TabRoute) {
         self._route = wrappedValue
-        self.id = wrappedValue.id
     }
     
-    func makeLabel(configuration: RoutableTabConfiguration) -> Self.TabLabel {
+    public init(erasing wrappedValue: some TabRoute) {
+        self._route = wrappedValue
+    }
+    
+    public func makeLabel(configuration: RoutableTabConfiguration) -> Self.TabLabel {
         AnyView(_route.makeLabel(configuration: configuration))
     }
     
-    func makeContent(configuration: RoutableTabConfiguration) -> Self.TabContent {
+    public func makeContent(configuration: RoutableTabConfiguration) -> Self.TabContent {
         AnyView(_route.makeContent(configuration: configuration))
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
-    static func == (lhs: AnyTabRoute, rhs: AnyTabRoute) -> Bool {
-        lhs.id == rhs.id
     }
 }
