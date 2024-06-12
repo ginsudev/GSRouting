@@ -1,18 +1,17 @@
 //
-//  RoutableView.swift
+//  ViewRoute.swift
 //
 //
 //  Created by Noah Little on 11/6/2024.
 //
 
-import Foundation
 import SwiftUI
 
 /// A protocol which can be used to make a view presentable by the `AppNavigationRouter`.
-public protocol RoutableView {
+public protocol ViewRoute {
     associatedtype Body: View
     
-    @ViewBuilder func makeBody(configuration: RoutableViewConfiguration) -> Self.Body
+    @ViewBuilder func makeBody(configuration: RoutableViewConfiguration) -> Body
     
     typealias Configuration = RoutableViewConfiguration
 }

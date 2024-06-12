@@ -48,13 +48,13 @@ public struct RoutableTabView: View {
     @StateObject
     private var tabRouter: AppTabRouter
     
-    public init(tabs: [any RoutableTab]) {
+    public init(tabs: [any TabRoute]) {
         self._tabRouter = .init(wrappedValue: .init(tabs: tabs))
     }
     
     public var body: some View {
         TabView(selection: $tabRouter.selectedTab) {
-            ForEach(tabRouter.tabs, id: \.wrappedValue.id) { tab in
+            ForEach(tabRouter.tabs) { tab in
                 contentView(tab: tab)
                     .tabItem { labelView(tab: tab) }
                     .tag(tab)
@@ -63,15 +63,15 @@ public struct RoutableTabView: View {
         .environmentObject(tabRouter)
     }
     
-    private func labelView(tab: Hashed<any RoutableTab>) -> some View {
-        AnyView(tab.wrappedValue.makeLabel(configuration: makeConfiguration(tab: tab)))
+    private func labelView(tab: AnyTabRoute) -> some View {
+        tab.makeLabel(configuration: makeConfiguration(tab: tab))
     }
     
-    private func contentView(tab: Hashed<any RoutableTab>) -> some View {
-        AnyView(tab.wrappedValue.makeContent(configuration: makeConfiguration(tab: tab)))
+    private func contentView(tab: AnyTabRoute) -> some View {
+        tab.makeContent(configuration: makeConfiguration(tab: tab))
     }
     
-    private func makeConfiguration(tab: Hashed<any RoutableTab>) -> RoutableTab.Configuration {
+    private func makeConfiguration(tab: AnyTabRoute) -> TabRoute.Configuration {
         .init(isSelected: tabRouter.selectedTab == tab)
     }
 }

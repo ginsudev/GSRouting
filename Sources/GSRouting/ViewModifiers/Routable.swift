@@ -16,20 +16,20 @@ private struct RoutableViewModifier: ViewModifier {
     private var navRouter: AppNavigationRouter = .init()
     
     @State
-    private var path: [Hashed<any RoutableView>] = []
+    private var path: [AnyViewRoute] = []
     
     @State
-    private var sheet: Hashed<any RoutableView>?
+    private var sheet: AnyViewRoute?
     
     @State
-    private var fullScreenCover: Hashed<any RoutableView>?
+    private var fullScreenCover: AnyViewRoute?
     
     func body(content: Content) -> some View {
         NavigationStack(path: $path) {
             content
                 .sheet(item: $sheet, content: sheetView)
                 .fullScreenCover(item: $fullScreenCover, content: fullScreenCoverView)
-                .navigationDestination(for: Hashed<any RoutableView>.self, destination: navigationDestinationView)
+                .navigationDestination(for: AnyViewRoute.self, destination: navigationDestinationView)
         }
         .onAppear {
             navRouter.initialize(
@@ -56,21 +56,23 @@ private struct RoutableViewModifier: ViewModifier {
         .environmentObject(navRouter)
     }
     
-    private func sheetView(_ sheet: Hashed<any RoutableView>) -> some View {
-        AnyView(sheet.wrappedValue.makeBody(configuration: .init(presentationMode: .sheet)))
+    private func sheetView(_ sheet: AnyViewRoute) -> some View {
+        sheet.makeBody(configuration: .init(presentationMode: .sheet))
     }
     
-    private func fullScreenCoverView(_ cover: Hashed<any RoutableView>) -> some View {
-        AnyView(cover.wrappedValue.makeBody(configuration: .init(presentationMode: .fullScreenCover)))
+    private func fullScreenCoverView(_ cover: AnyViewRoute) -> some View {
+        cover.makeBody(configuration: .init(presentationMode: .fullScreenCover))
     }
     
-    private func navigationDestinationView(_ destination: Hashed<any RoutableView>) -> some View {
-        AnyView(destination.wrappedValue.makeBody(configuration: .init(presentationMode: .destination)))
+    private func navigationDestinationView(_ destination: AnyViewRoute) -> some View {
+        destination.makeBody(configuration: .init(presentationMode: .destination))
     }
 }
 
 extension View {
     
+    /// Marks this view as the "root view" of a new navigation stack and gives subviews the ability to
+    /// control the navigation through usage of the ``Router`` propertyWrapper, or access via environment object.
     public func routable() -> some View {
         modifier(RoutableViewModifier())
     }

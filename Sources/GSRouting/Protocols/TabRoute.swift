@@ -1,5 +1,5 @@
 //
-//  RoutableTab.swift
+//  TabRoute.swift
 //
 //
 //  Created by Noah Little on 12/6/2024.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// A protocol which can be used to render a tab.
-public protocol RoutableTab: Hashable, Identifiable {
+public protocol TabRoute: Hashable, Identifiable {
     associatedtype TabLabel: View
     associatedtype TabContent: View
     

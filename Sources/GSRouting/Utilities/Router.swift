@@ -7,15 +7,14 @@
 
 import SwiftUI
 
+/// A convenience propertyWrapper to access the injected `AppNavigationRouter` instance.
 @propertyWrapper
 public struct Router: DynamicProperty {
     
     @EnvironmentObject
     private var router: AppNavigationRouter
     
-    public var wrappedValue: AppNavigationRouter {
-        router
-    }
+    public var wrappedValue: AppNavigationRouter { router }
     
     public init() { }
 }
