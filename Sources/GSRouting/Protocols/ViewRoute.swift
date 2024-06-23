@@ -12,7 +12,8 @@ import SwiftUI
 public protocol ViewRoute: Hashable, Equatable, Identifiable where ID == String {
     associatedtype Body: View
     
-    @ViewBuilder func makeBody(configuration: RoutableViewConfiguration) -> Body
+    @MainActor @ViewBuilder 
+    func makeBody(configuration: RoutableViewConfiguration) -> Body
     
     typealias Configuration = RoutableViewConfiguration
 }

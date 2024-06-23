@@ -13,8 +13,11 @@ public protocol TabRoute: Hashable, Equatable, Identifiable where ID == String {
     associatedtype TabLabel: View
     associatedtype TabContent: View
         
-    @ViewBuilder func makeLabel(configuration: RoutableTabConfiguration) -> TabLabel
-    @ViewBuilder func makeContent(configuration: RoutableTabConfiguration) -> TabContent
+    @MainActor @ViewBuilder
+    func makeLabel(configuration: RoutableTabConfiguration) -> TabLabel
+    
+    @MainActor @ViewBuilder
+    func makeContent(configuration: RoutableTabConfiguration) -> TabContent
     
     typealias Configuration = RoutableTabConfiguration
 }
