@@ -57,15 +57,15 @@ private struct RoutableViewModifier: ViewModifier {
     }
     
     private func sheetView(_ sheet: AnyViewRoute) -> some View {
-        sheet.makeBody(configuration: .init(presentationMode: .sheet))
+        sheet.makeBody(context: .init(presentationMode: .sheet))
     }
     
     private func fullScreenCoverView(_ cover: AnyViewRoute) -> some View {
-        cover.makeBody(configuration: .init(presentationMode: .fullScreenCover))
+        cover.makeBody(context: .init(presentationMode: .fullScreenCover))
     }
     
     private func navigationDestinationView(_ destination: AnyViewRoute) -> some View {
-        destination.makeBody(configuration: .init(presentationMode: .destination))
+        destination.makeBody(context: .init(presentationMode: .destination))
     }
 }
 

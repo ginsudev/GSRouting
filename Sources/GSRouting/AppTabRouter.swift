@@ -15,9 +15,7 @@ internal final class AppTabRouter: ObservableObject {
     let tabs: [AnyTabRoute]
     
     init(tabs: [any TabRoute]) {
-        if tabs.isEmpty {
-            fatalError("Must have at least 1 tab.")
-        }
+        if tabs.isEmpty { fatalError("Must have at least 1 tab.") }
         
         let hashedTabs = tabs.map(AnyTabRoute.init)
         self.selectedTab = hashedTabs[0]
@@ -29,9 +27,8 @@ internal final class AppTabRouter: ObservableObject {
             return
         }
         
-        for tab in tabs where tab.id == id {
+        if let tab = tabs.first(where: { $0.id == id }) {
             self.selectedTab = tab
-            break
         }
     }
 }

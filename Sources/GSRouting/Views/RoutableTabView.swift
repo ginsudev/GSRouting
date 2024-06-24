@@ -64,14 +64,14 @@ public struct RoutableTabView: View {
     }
     
     private func labelView(tab: AnyTabRoute) -> some View {
-        tab.makeLabel(configuration: makeConfiguration(tab: tab))
+        tab.makeLabel(context: makeContext(tab: tab))
     }
     
     private func contentView(tab: AnyTabRoute) -> some View {
-        tab.makeContent(configuration: makeConfiguration(tab: tab))
+        tab.makeContent(context: makeContext(tab: tab))
     }
     
-    private func makeConfiguration(tab: AnyTabRoute) -> TabRoute.Configuration {
+    private func makeContext(tab: AnyTabRoute) -> TabRoute.Context {
         .init(isSelected: tabRouter.selectedTab == tab)
     }
 }
