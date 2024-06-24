@@ -9,7 +9,7 @@ import Foundation
 
 /// A class to handle navigation routing operations, such as presenting sheets,
 /// switching tabs, pushing onto the nav stack etc.
-public final class AppNavigationRouter: ObservableObject {
+@MainActor public final class AppNavigationRouter: ObservableObject {
     private var callbacks: Callbacks?
     
     internal func initialize(
