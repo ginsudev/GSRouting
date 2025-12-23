@@ -36,7 +36,6 @@ import SwiftUI
  }
  ```
  */
-@_typeEraser(AnyViewRoute)
 public protocol ViewRoute: Hashable, Equatable, Identifiable where ID == String {
     /// The type of view representing the body of this ViewRoute.
     associatedtype Body: View

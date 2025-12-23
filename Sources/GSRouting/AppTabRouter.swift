@@ -1,34 +1,42 @@
 //
 //  AppTabRouter.swift
+//  GSRouting
 //
-//
-//  Created by Noah Little on 12/6/2024.
+//  Created by Noah Little on 23/12/2025.
 //
 
 import Foundation
 
-@MainActor internal final class AppTabRouter: ObservableObject {
+@MainActor
+public final class AppTabRouter: ObservableObject {
+    public let tabs: [AnyTabRoute]
+    private var routerForTab: [String: WeakBox] = [:]
     
-    @Published 
-    var selectedTab: AnyTabRoute
-    
-    let tabs: [AnyTabRoute]
+    @Published public var selectedTab: AnyTabRoute
     
     init(tabs: [any TabRoute]) {
-        if tabs.isEmpty { fatalError("Must have at least 1 tab.") }
-        
-        let hashedTabs = tabs.map(AnyTabRoute.init)
-        self.selectedTab = hashedTabs[0]
-        self.tabs = hashedTabs
+        guard let firstTab = tabs.first else { fatalError("Must have atleast 1 tab.") }
+        self.tabs = tabs.map(AnyTabRoute.init(erasing:))
+        self.selectedTab = .init(erasing: firstTab)
     }
     
-    func switchToTab(id: String) {
-        guard selectedTab.id != id else {
-            return
+    public func selectTab(id: String) {
+        guard selectedTab.id != id, let newTab = tabs.first(where: { $0.id == id }) else { return }
+        self.selectedTab = newTab
+    }
+    
+    public func navigationRouterForTab(id: String) -> AppNavigationRouter {
+        if let router = routerForTab[id]?.wrappedValue {
+            return router
+        } else {
+            let router = AppNavigationRouter(tabRouter: self)
+            routerForTab[id] = .init(wrappedValue: router)
+            return router
         }
-        
-        if let tab = tabs.first(where: { $0.id == id }) {
-            self.selectedTab = tab
-        }
+    }
+    
+    private final class WeakBox {
+        weak var wrappedValue: AppNavigationRouter?
+        init(wrappedValue: AppNavigationRouter) { self.wrappedValue = wrappedValue }
     }
 }
