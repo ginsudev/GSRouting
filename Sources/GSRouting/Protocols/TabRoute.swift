@@ -35,7 +35,6 @@ import SwiftUI
  }
  ```
  */
-@_typeEraser(AnyTabRoute)
 public protocol TabRoute: Hashable, Equatable, Identifiable where ID == String {
     /// The type of view representing the label of this TabRoute.
     associatedtype TabLabel: View
@@ -86,4 +85,6 @@ public extension TabRoute {
 public struct RoutableTabContext {
     /// Whether the tab is currently selected.
     public let isSelected: Bool
+    /// The router to be used for this tab.
+    public let router: AppNavigationRouter
 }

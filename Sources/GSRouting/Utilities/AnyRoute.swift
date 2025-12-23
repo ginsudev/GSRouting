@@ -20,10 +20,6 @@ public struct AnyViewRoute: ViewRoute {
         self._route = wrappedValue
     }
     
-    public init(erasing wrappedValue: some ViewRoute) {
-        self._route = wrappedValue
-    }
-    
     public func makeBody(context: Context) -> Self.Body {
         AnyView(_route.makeBody(context: context))
     }
@@ -39,10 +35,6 @@ public struct AnyTabRoute: TabRoute {
     public var id: ID { _route.id }
     
     public init(erasing wrappedValue: any TabRoute) {
-        self._route = wrappedValue
-    }
-    
-    public init(erasing wrappedValue: some TabRoute) {
         self._route = wrappedValue
     }
     

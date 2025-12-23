@@ -9,13 +9,15 @@ import SwiftUI
 
 /// A wrapper over `TabView` which adds programmatic routing capabilities to the app.
 ///
-/// To get started, use the `init(tabs: [any RoutableTab])` initialiser of `RoutableTabView`
-/// on the root view of the app where a `TabView` would normally go.
+/// To get started, use the `init(appRouter: AppRouter, tabs: [any RoutableTab])` initialiser of `RoutableTabView`
+/// on the root view of the app where a `TabView` would normally go. An instance of `appRouter` can be obtained from ``AppRouterView``
 ///
 /// ```swift
 ///
 /// var body: some View {
-///     RoutableTabView(tabs: [HomeTabRoute(), SearchTabRoute()])
+///     AppRouterView(tabs: [HomeTabRoute(), SearchTabRoute()]) { tabRouter in
+///         RoutableTabView(tabRouter: tabRouter)
+///     }
 /// }
 ///
 /// ```
@@ -44,12 +46,10 @@ import SwiftUI
 ///
 /// ```
 public struct RoutableTabView: View {
+    @ObservedObject private var tabRouter: AppTabRouter
     
-    @StateObject
-    private var tabRouter: AppTabRouter
-    
-    public init(tabs: [any TabRoute]) {
-        self._tabRouter = .init(wrappedValue: .init(tabs: tabs))
+    public init(tabRouter: AppTabRouter) {
+        self.tabRouter = tabRouter
     }
     
     public var body: some View {
@@ -60,7 +60,6 @@ public struct RoutableTabView: View {
                     .tag(tab)
             }
         }
-        .environmentObject(tabRouter)
     }
     
     private func labelView(tab: AnyTabRoute) -> some View {
@@ -72,6 +71,6 @@ public struct RoutableTabView: View {
     }
     
     private func makeContext(tab: AnyTabRoute) -> TabRoute.Context {
-        .init(isSelected: tabRouter.selectedTab == tab)
+        .init(isSelected: tabRouter.selectedTab.id == tab.id, router: tabRouter.navigationRouterForTab(id: tab.id))
     }
 }
