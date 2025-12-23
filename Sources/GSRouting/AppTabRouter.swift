@@ -12,9 +12,9 @@ public final class AppTabRouter: ObservableObject {
     public let tabs: [AnyTabRoute]
     private var routerForTab: [String: WeakBox] = [:]
     
-    @Published public var selectedTab: AnyTabRoute
+    @Published public internal(set) var selectedTab: AnyTabRoute
     
-    init(tabs: [any TabRoute]) {
+    internal init(tabs: [any TabRoute]) {
         guard let firstTab = tabs.first else { fatalError("Must have atleast 1 tab.") }
         self.tabs = tabs.map(AnyTabRoute.init(erasing:))
         self.selectedTab = .init(erasing: firstTab)
