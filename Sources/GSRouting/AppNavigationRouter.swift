@@ -9,7 +9,8 @@ import Foundation
 
 /// A class to handle navigation routing operations, such as presenting sheets,
 /// switching tabs, pushing onto the nav stack etc.
-@MainActor public final class AppNavigationRouter: ObservableObject {
+@MainActor
+public final class AppNavigationRouter: ObservableObject {
     @Published internal var path: [AnyViewRoute] = []
     @Published internal var sheet: AnyViewRoute?
     @Published internal var fullScreenCover: AnyViewRoute?
@@ -49,5 +50,13 @@ import Foundation
     /// Switches to the tab with the given ID.
     public func switchTab(id: String) {
         tabRouter?.selectTab(id: id)
+    }
+    
+    public func snapshot() -> [AnyViewRoute] {
+        path
+    }
+    
+    public func restore(_ path: [AnyViewRoute]) {
+        self.path = path
     }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// A convenience propertyWrapper to access the injected `AppNavigationRouter` instance.
-@propertyWrapper
+@propertyWrapper @MainActor
 public struct Router: DynamicProperty {
     
     @EnvironmentObject
